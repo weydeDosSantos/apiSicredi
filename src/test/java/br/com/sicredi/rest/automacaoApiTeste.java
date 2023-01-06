@@ -29,8 +29,16 @@ public class automacaoApiTeste extends BaseTestes{
 			.get("restricoes/97093236014")
 		.then()
 			.statusCode(200)
-			.body("mensagem",is("O CPF 97093236014 tem problema"))		
-		;
+			.body("mensagem",is("O CPF 97093236014 tem problema"));	
+	}
+	
+	@Test
+	public void consultarCpfSemRestricao() {
+		given()
+		.when()
+			.get("restricoes/"+CONTA_CPF+"")
+		.then()
+			.statusCode(204);
 	}
 
 	@Test
@@ -41,9 +49,9 @@ public class automacaoApiTeste extends BaseTestes{
 			.post("simulacoes")
 		.then()
 			.statusCode(201)
-			.extract().path("id")
-			;
+			.extract().path("id");
 	}
+	
 	@Test
 	public void t03_erroRegra() {
 		given()
@@ -52,9 +60,7 @@ public class automacaoApiTeste extends BaseTestes{
 			.post("simulacoes")
 		.then()
 			.statusCode(400)
-			.body("erros.email",is("E-mail deve ser um e-mail valido"));
-			;
-		;
+			.body("erros.email",is("E-mail deve ser um e-mail válido"));
 	}
 	
 	@Test
@@ -66,9 +72,8 @@ public class automacaoApiTeste extends BaseTestes{
 		.then()
 			.statusCode(400)
 			.body("mensagem",is("CPF duplicado"));
-			
-		;
 	}
+	
 	@Test
 	public void t05_alterarSimulacao() {
 		given()
@@ -76,8 +81,7 @@ public class automacaoApiTeste extends BaseTestes{
 		.when()
 			.put("simulacoes/"+CONTA_CPF+"")
 		.then()
-			.statusCode(200)
-			;
+			.statusCode(200);
 	}
 	
 	@Test
@@ -89,9 +93,8 @@ public class automacaoApiTeste extends BaseTestes{
 		.then()
 			.statusCode(404)
 			.body("mensagem",is("CPF 97093336013 não encontrado"));
-			
-		;
 	}
+	
 	@Test
 	public void t07_consultarTodasSimulacoes() {
 		given()
@@ -99,10 +102,9 @@ public class automacaoApiTeste extends BaseTestes{
 			.get("simulacoes")
 		.then()
 			.log().all()
-			.statusCode(200)
-		;
-
+			.statusCode(200);
 	}
+	
 	@Test
 	public void t08_consultarSimulacao() {
 		given()
@@ -110,9 +112,7 @@ public class automacaoApiTeste extends BaseTestes{
 			.get("simulacoes/"+CONTA_CPF+"")
 		.then()
 			.log().all()
-			.statusCode(200)
-		;
-
+			.statusCode(200);
 	}
 	
 	@Test
@@ -122,10 +122,9 @@ public class automacaoApiTeste extends BaseTestes{
 			.get("simulacoes/97093636013")
 		.then()
 			.statusCode(404)
-			.body("mensagem",is("CPF 97093636013 n�o encontrado"));
-		;
-
+			.body("mensagem",is("CPF 97093636013 não encontrado"));
 	}
+	
 	@Test
 	public void t10_deletarSimulacao() {
 		given()
@@ -133,18 +132,8 @@ public class automacaoApiTeste extends BaseTestes{
 		.when()
 			.delete("simulacoes/{id}")
 		.then()
-			.statusCode(200)
-		;
+			.statusCode(200);
 	}
-//	@Test
-	public void t11_tentarDeletarSimulacaoInexistente() {
-		given()
-			.pathParam("id", CONTA_ID)
-		.when()
-			.delete("simulacoes/{id}")
-		.then()
-			.statusCode(404)
-		;
+
 	}
 	
-}
